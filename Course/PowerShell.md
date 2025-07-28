@@ -1,6 +1,6 @@
 # PowerShell and Scripting
 
-> Yahyaoui Med Aziz | 7162025.
+> Yahyaoui Med Aziz | 07162025.
 
 <details>
   <summary>Links to resources:</summary>
@@ -230,7 +230,7 @@ $var | Get-Member
 
 # List only properties
 $var | Get-Member -MemberType Properties
-````
+```
 
 > 🧠 **Object-Oriented Pipeline**:
 > Unlike Bash, PowerShell passes **.NET objects**, not raw text. That means you can inspect, filter, and manipulate structured data directly in the pipeline!
@@ -297,6 +297,276 @@ choco install nmap
 
 ---
 
+### ⚙️ Profiles & Execution Policies
+
+PowerShell allows users to customize their shell environment and control script execution through **profiles** and **execution policies**.
+
+Whether you're coming from a Linux background or are completely new to shell scripting, understanding how PowerShell handles startup customization and script permissions is essential for both daily automation and secure administration.
+
+#### 🔐 Execution Policy: Controlling Script Permissions
+
+Execution policies are a safety feature in PowerShell to control how scripts are executed. They’re not a security system but more of a preventive barrier.
+
+| **Policy**     | **Description**                                                              |
+| -------------- | ---------------------------------------------------------------------------- |
+| `Restricted`   | Default. No scripts can run. Only interactive commands allowed.              |
+| `AllSigned`    | Only scripts signed by a trusted publisher can be run.                       |
+| `RemoteSigned` | Locally created scripts can run. Downloaded ones must be signed.             |
+| `Unrestricted` | All scripts can run. Shows a warning when running downloaded scripts.        |
+| `Bypass`       | Nothing is blocked and no warnings are shown. Not recommended for daily use. |
+
+🔸 **Check Current Policy**:
+
+```powershell
+Get-ExecutionPolicy
+```
+
+🔸 **Set Policy (Current User Scope)**:
+
+```powershell
+Set-ExecutionPolicy RemoteSigned -Scope CurrentUser
+```
+
+> ⚠️ It's best to avoid setting `Unrestricted` or `Bypass` globally. Use `CurrentUser` scope during learning/testing.
+
+- To know more about execution policies:
+```powershell
+ Get-Help about_Execution_Policies
+```
+---
+
+---
+
+#### 🧰 Profiles: Customize Your PowerShell Environment
+
+A **PowerShell profile** is a script that runs every time you open a new PowerShell session. It’s useful for setting aliases, loading functions, customizing prompts, etc.
+
+🔸 **Check if Profile Exists**:
+
+```powershell
+Test-Path $PROFILE # by default returns false
+$PROFILE | select-object *
+```
+
+🔸 **Create Profile (if not exists)**:
+
+```powershell
+New-Item -ItemType File -Path $PROFILE -Force
+```
+
+🔸 **Open Profile for Editing**:
+
+```powershell
+notepad $PROFILE
+```
+
+📌 Example content you can add:
+
+```powershell
+# Custom Aliases
+Set-Alias gs Get-Service
+Set-Alias ll Get-ChildItem
+
+# Welcome Message
+Write-Host "Welcome back, Aziz!" -ForegroundColor Cyan
+```
+
+📝 There are **different profiles per host type and user**. To check all profile paths:
+
+```powershell
+$PROFILE | Format-List *
+```
+#### SHould Know This:
+
+>**"security use cases"** in the context of PowerShell **Profiles & Execution Policies**, in practical ways these features are used to *harden*, *monitor*, or *protect* PowerShell usage on a system.
+
+Here’s a quick breakdown of what I could expand on under “Security Use Cases”:
+
+---
+
+##### 🛡️ Security Use Cases (to expand later)
+
+ 1. **Preventing Unauthorized Script Execution**
+
+* Set execution policy to `AllSigned` or `RemoteSigned` to reduce risk of running malicious or tampered scripts.
+* Ideal for enterprise environments where scripts must be reviewed/signed before deployment.
+
+ 2. **Detecting Malicious Profile Modifications**
+
+* Since `$PROFILE` runs automatically, attackers often backdoor it.
+* **Defensive use case**: Monitor changes to `$PROFILE` with file integrity tools (e.g., Windows Defender, Sysmon, or custom script hashing).
+
+ 3. **Enforcing Least Privilege**
+
+* Apply restricted execution policies only for *CurrentUser* and use signed scripts for *AllUsers* to control risk without limiting admins globally.
+
+ 4. **Hardening Developer Environments**
+
+* Disable risky aliases or redefine them safely (e.g., override `rm` to prevent accidental deletion).
+* Add logging/tracing to your profile (e.g., log every session start or command history to a file).
+
+ 5. **Incident Response Shortcut in Profile**
+
+* Add quick aliases/functions to your profile for scanning logs, checking for suspicious processes, or dumping logs for review.
+
+Example:
+
+```powershell
+function quickIR {
+  Get-EventLog -LogName Security -Newest 100 | Out-File "$env:USERPROFILE\Desktop\IR_Logs.txt"
+}
+```
+
+---
+
+### 🧪 Aliases, Variables, Types & PSDrives
+
+PowerShell might look like it borrowed from Bash at first glance — especially with familiar aliases like `ls`, `cd`, and `echo`. But under the hood, it’s a **fully object-oriented scripting environment**. This section will explore:
+
+* 🔗 **Aliases** – shortcuts that map to real cmdlets
+* 🧠 **Variables** – flexible containers (with some PowerShell quirks)
+* 🧬 **Data types** – more than just strings!
+* 💾 **PSDrives** – virtual file systems beyond your `C:\` drive
+
+> Whether you come from a **Linux/Unix shell background** or you're **new to CLI altogether**, this will help you build a strong PowerShell foundation.
+
+---
+
+#### **Aliases**
+
+
+Aliases in PowerShell are **nicknames** or **shortcuts** for full cmdlet names. They're great for saving time when typing interactively — but in scripts, they can **hurt readability and maintainability**.
+
+> 📌 Why aliases exist:
+
+* To make PowerShell feel more familiar for users from Linux (`ls`, `cat`, etc.) or old-school CMD (`dir`, `del`, `cls`)
+* To save time when typing commands manually
+* To bridge users into the full cmdlet structure
+
+> 🧠 How to view aliases:
+
+```powershell
+Get-Alias
+```
+
+Filter to specific alias:
+
+```powershell
+Get-Alias ls
+```
+
+See all aliases for a particular cmdlet:
+
+```powershell
+Get-Alias | Where-Object {$_.Definition -eq 'Get-ChildItem'}
+```
+
+> 💡 Create your own alias:
+
+```powershell
+Set-Alias goHome Set-Location -Value "C:\Users\$env:USERNAME"
+```
+
+> ⚠️ **Note:** Aliases only exist **for the current session** unless you persist them in your PowerShell profile.
+
+#### 📛 Remove alias:
+
+```powershell
+Remove-Item Alias:yourAliasName
+```
+
+---
+
+#### **Variables**
+
+PowerShell variables are super **flexible**, **typed dynamically**, and **easy to define**. They start with a `$` and can store anything — from strings and numbers to entire objects, scripts, or outputs of cmdlets.
+
+#### ✅ Basic Variable Examples
+
+```powershell
+$name = "Aziz"
+$age = 24
+$isReady = $true
+```
+
+> 📌 You don't need to define the type explicitly — PowerShell figures it out for you.
+
+#### 🔁 Assigning Command Output
+
+```powershell
+$date = Get-Date
+$services = Get-Service | Where-Object {$_.Status -eq "Running"}
+```
+
+> Now `$date` holds a `[datetime]` object and `$services` holds a collection of `[ServiceController]` objects.
+
+#### 🧪 Check a Variable's Type
+
+```powershell
+$services.GetType()
+```
+
+Or use:
+
+```powershell
+$services | Get-Member
+```
+
+---
+
+### ⚙️ Environment Variables
+
+Access system environment variables easily using the `env:` drive:
+
+```powershell
+$env:USERNAME
+$env:PATH
+```
+
+You can set them too (but changes only last for the current session):
+
+```powershell
+$env:MY_VAR = "PowerShellIsFun"
+```
+
+---
+
+### 🧪 TP2: Interactive Variable Debugger
+
+```powershell
+# TP2: Debug Your Variable
+$myVar = Read-Host "Enter a value"
+Write-Host "📦 You entered: $myVar"
+Write-Host "🔍 Type: " -NoNewline
+$myVar.GetType().Name
+```
+
+---
+
+### 📌 Pro Tips
+
+* Use `Write-Output`, not `echo` (even if they work the same). Avoid aliases in scripts!
+* Use `Clear-Variable varName` or `$varName = $null` to reset a variable.
+* Use `Get-Variable` to explore variables in scope:
+
+  ```powershell
+  Get-Variable
+  Get-Variable myVar
+  ```
+
+
+
+#### **Types**
+
+
+
+
+#### **PSDrives**.
+
+
+
+
+##
 > ⚠️ **Warning:**
 "message": "'echo' is an alias of 'Write-Output'. Alias can introduce possible problems and make scripts hard to maintain. Please consider changing alias to its full content.",
 
