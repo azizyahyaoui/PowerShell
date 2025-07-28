@@ -528,19 +528,6 @@ You can set them too (but changes only last for the current session):
 ```powershell
 $env:MY_VAR = "PowerShellIsFun"
 ```
-
----
-
-### 🧪 TP2: Interactive Variable Debugger
-
-```powershell
-# TP2: Debug Your Variable
-$myVar = Read-Host "Enter a value"
-Write-Host "📦 You entered: $myVar"
-Write-Host "🔍 Type: " -NoNewline
-$myVar.GetType().Name
-```
-
 ---
 
 ### 📌 Pro Tips
