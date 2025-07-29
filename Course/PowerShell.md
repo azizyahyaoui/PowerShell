@@ -212,7 +212,7 @@ By the end of this, you'll know how to explore PowerShell the way hackers dig in
 
 ---
 
-### 🧠 John Hammond Pro Tips & Power Tips
+### 🧠 Tips & Power Tips
 
 ```powershell
 # Find real cmdlet behind alias
