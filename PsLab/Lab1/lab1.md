@@ -1,4 +1,4 @@
-# 🧪 TP1 – PowerShell CLI Hands-on Practice
+# 🧪 Lab1 – PowerShell CLI Hands-on Practice
 
 > 🎯 **Objective:**  
 Get familiar with basic PowerShell cmdlets that map to common Linux commands. This exercise will guide you through everyday tasks using **full cmdlets** (not aliases) to help build clean scripting habits.
