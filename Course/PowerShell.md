@@ -17,7 +17,7 @@
 
 </details>
 
-## 🔹 **Foundations**
+## 🔹 Foundations
 
 ### Introduction
 
@@ -553,7 +553,7 @@ $env:MY_VAR = "PowerShellIsFun"
 
 ---
 
-### 🧬 Types, Casting, and Type Accelerators in PowerShell
+### **🧬 Types, Casting, and Type Accelerators in PowerShell**
 
 PowerShell is **dynamically typed**, but behind the scenes it’s built on **.NET**, which means it has access to **strong types** too — and you can control them when needed.
 
@@ -640,7 +640,7 @@ $birthday.AddYears(25)
 
 ---
 
-### 🧩 Hashtables in PowerShell
+### **🧩 Hashtables in PowerShell**
 
 A **hashtable** is a collection of **key-value pairs** — like a mini-database or a JSON object.
 
@@ -724,8 +724,76 @@ $combined = $person + $job
 
 ---
 
-### **PSDrives**.
+### **PSDrives(PowerShell Drives)**
 
+In this section part, let’s mount into the world of **PowerShell Drives (PSDrives)** — they might look like file system paths, but they're much more than that. 🧭📁
+
+PSDrives represent **data stores** you can browse and manipulate **as if they were file systems**, using standard navigation commands like `cd`, `ls`, and `dir`.
+
+---
+
+#### 🔍 What is a PSDrive?
+
+A **PSDrive** is a *PowerShell abstraction layer* over different types of data stores:
+
+| Drive Name  | Description                        |
+| ----------- | ---------------------------------- |
+| `C:\`       | File system drive                  |
+| `HKLM:`     | Registry (HKEY\_LOCAL\_MACHINE)    |
+| `Env:`      | Environment variables              |
+| `Alias:`    | All defined aliases                |
+| `Function:` | User-defined or built-in functions |
+| `Variable:` | All PowerShell variables           |
+| `Cert:`     | X.509 certificate store            |
+
+---
+
+#### 📂 List All Drives
+
+```powershell
+Get-PSDrive
+```
+
+---
+
+#### 🔄 Navigate Like a File System
+
+```powershell
+cd Env:
+ls
+```
+
+You can read or write like you're in a directory:
+
+```powershell
+$env:USERNAME
+$env:PATH = "$env:PATH;C:\Custom\Bin"
+```
+
+---
+
+#### 📌 Useful Examples
+
+##### ➤ Registry Access:
+
+```powershell
+cd HKCU:\Software
+ls
+```
+
+##### ➤ Alias Drive:
+
+```powershell
+cd Alias:
+ls | Where-Object { $_.Definition -like "*Get*" }
+```
+
+##### ➤ Variable Drive:
+
+```powershell
+cd Variable:
+ls | Sort-Object Name
+```
 
 ---
 
