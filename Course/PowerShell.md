@@ -170,6 +170,12 @@ In this section, we’ll dig into:
 - How to _peek inside_ objects (`Get-Member`)
 - How to _pluck out_ what you need (`Select-Object`, `.Property` access)
 
+*   **Cmdlets (Command-lets):** These are lightweight commands used in the PowerShell environment. Cmdlets follow a Verb-Noun naming convention (e.g., `Get-Command`, `Set-ExecutionPolicy`), making them easy to understand and discover.
+*   **Providers and Drives:** PowerShell providers allow access to data stores (like the file system, registry, or environment variables) as if they were file system drives. For example, the `FileSystem` provider allows navigation and manipulation of files and directories, while the `Alias` provider manages command aliases.
+*   **Pipelining:** PowerShell's most powerful feature is its ability to pipe objects from one cmdlet to another. Unlike traditional command-line interfaces that pipe text, PowerShell pipes objects, allowing for more structured and efficient data manipulation.
+*   **Variables:** Variables are used to store data in PowerShell. They are denoted by a dollar sign (`$`) followed by the variable name (e.g., `$myVariable`).
+*   **Aliases:** Aliases are alternate names for cmdlets or functions, providing shortcuts for frequently used commands (e.g., `gci` for `Get-ChildItem`).
+
 By the end of this, you'll know how to explore PowerShell the way hackers dig into filesystems — with a flashlight, not guesswork.
 
 > Inspired by: John Hammond’s Playlist – Episode 1: [Intro to PowerShell](https://youtu.be/TUNNmVeyjW0?list=PL1H1sBF1VAKXqO_N3ZNP0aL15miJcUhw7)
