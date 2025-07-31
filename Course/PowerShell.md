@@ -15,7 +15,7 @@
 
 - Videos:
 - [John Hammond - Windows PowerShell Tutorials](https://www.youtube.com/playlist?list=PL1H1sBF1VAKXqO_N3ZNP0aL15miJcUhw7)
-- 
+-
 
 </details>
 
@@ -867,14 +867,12 @@ In Windows PowerShell, local user and group management can be handled with:
 - **`net user`** / **`net localgroup`** (legacy but works)
 - Or newer: **`New-LocalUser`**, **`Add-LocalGroupMember`** (PowerShell 5+)
 
-
 > 👤 Create a Local User
 
 ```powershell
 $Password = Read-Host "Enter Password" -AsSecureString
 New-LocalUser -Name "aziz" -Password $Password -FullName "Aziz Yahyaoui" -Description "DevOps guy"
 ```
-
 
 > ❌ Remove a User
 
@@ -894,14 +892,12 @@ New-LocalGroup -Name "devops" -Description "DevOps team group"
 Add-LocalGroupMember -Group "devops" -Member "aziz"
 ```
 
-
 > ❌ Remove a Group or Member
 
 ```powershell
 Remove-LocalGroupMember -Group "devops" -Member "aziz"
 Remove-LocalGroup -Name "devops"
 ```
-
 
 > 🔒 Set or Change Password
 
@@ -943,7 +939,7 @@ To run a script, use:
 
 ```powershell
 .\myscript.ps1
-````
+```
 
 > 🛑 But first — check your **Execution Policy**:
 
@@ -993,7 +989,7 @@ Hello, Aziz!
 
 > 🧠 Best Practices
 
-|  Tip                         | Explanation                                                      |
+| Tip                          | Explanation                                                      |
 | ---------------------------- | ---------------------------------------------------------------- |
 | Use `.ps1`                   | Not `.bat` or even `sh`. Always use `.ps1` for scripts.          |
 | Add comments `#`             | Helps document what each line does.                              |
@@ -1006,14 +1002,14 @@ Hello, Aziz!
 
 > 🔐 Scripting & Security
 
-* `.ps1` files can be used maliciously.
-* Avoid running untrusted scripts.
-* Use `Get-Content` to inspect before executing.
-* Keep scripts in secure locations.
+- `.ps1` files can be used maliciously.
+- Avoid running untrusted scripts.
+- Use `Get-Content` to inspect before executing.
+- Keep scripts in secure locations.
 
 ---
 
-### Basic script structure** (headers, comments, variables,  flow)
+### Basic script structure\*\* (headers, comments, variables, flow)
 
 A well-structured PowerShell script is not just functional — it's **readable**, **maintainable**, and **reusable**.
 
@@ -1052,17 +1048,123 @@ $source = "C:\Projects"
 $destination = "D:\Backups"
 ```
 
-#### 📦 3. Variables
+#### 📦 3. Variables and data types
 
-You already explored **variables** earlier, but in scripting:
+> You already explored **variables** earlier, but in scripting:
 
-* Declare them early and meaningfully
-* Reuse rather than hardcode
-* You can also prompt for user input:
+- Declare them early and meaningfully
+- Reuse rather than hardcode
+- You can also prompt for user input:
 
 ```powershell
 $name = Read-Host "Enter your name"
 Write-Output "Welcome, $name!"
+```
+
+Great timing to ask that! In PowerShell, you’ve already seen the common ones like `[string]`, `[int]`, `[bool]`, and `[datetime]`. But since PowerShell is built on top of **.NET**, it supports a wide variety of types — much richer than classic shell scripting.
+
+Here’s a categorized breakdown of **commonly used data types** in PowerShell:
+
+---
+
+##### 🧬 PowerShell Data Types
+
+> 🔤 **Text & Characters**
+
+| Type       | Example           |
+| ---------- | ----------------- |
+| `[string]` | `"Aziz Yahyaoui"` |
+| `[char]`   | `'A'`             |
+
+---
+
+> 🔢 **Numbers**
+
+| Type                | Example                                          |
+| ------------------- | ------------------------------------------------ |
+| `[int]` / `[int32]` | `42`                                             |
+| `[int64]`           | `12345678901234`                                 |
+| `[double]`          | `3.14`                                           |
+| `[decimal]`         | `[decimal]19.99` (for high-precision money/math) |
+| `[float]`           | `[float]3.14`                                    |
+
+💡 PowerShell automatically chooses based on context unless you cast explicitly.
+
+---
+
+> 🔘 **Booleans**
+
+| Type     | Example           |
+| -------- | ----------------- |
+| `[bool]` | `$true`, `$false` |
+
+---
+
+> ⌚ **Date & Time**
+
+| Type         | Example                       |
+| ------------ | ----------------------------- |
+| `[datetime]` | `[datetime]"2025-07-31"`      |
+| `[timespan]` | `[timespan]::FromMinutes(90)` |
+
+> You can do math with them like:
+> `$deadline = (Get-Date).AddDays(7)`
+
+---
+
+> 📦 **Collections & Tables**
+
+| Type             | Example                                            |
+| ---------------- | -------------------------------------------------- |
+| `[array]`        | `@(1, 2, 3)`                                       |
+| `[hashtable]`    | `@{Name="Aziz"; Age=25}`                           |
+| `[list[string]]` | `[System.Collections.Generic.List[string]]::new()` |
+
+---
+
+> 🧪 **Object & Reflection**
+
+| Type         | Description                                           |
+| ------------ | ----------------------------------------------------- |
+| `[object]`   | The universal base type (everything inherits from it) |
+| `[psobject]` | A PowerShell-specific wrapper type used in pipelines  |
+| `[null]`     | A special non-value                                   |
+
+---
+
+> 🌐 **Web & Data Formats**
+
+| Type      | Used For                                       |
+| --------- | ---------------------------------------------- |
+| `[xml]`   | XML parsing (`[xml]$x = Get-Content file.xml`) |
+| `[json]`  | Via `ConvertFrom-Json` / `ConvertTo-Json`      |
+| `[regex]` | Regular expressions                            |
+
+---
+
+> 🧠 **Specialized / System Types**
+
+| Type            | Description                                        |
+| --------------- | -------------------------------------------------- |
+| `[guid]`        | Globally Unique Identifier: `[guid]::NewGuid()`    |
+| `[uri]`         | Uniform Resource Identifier                        |
+| `[scriptblock]` | Code as data (like function blocks)                |
+| `[switch]`      | Special boolean-style input (`-Verbose`, `-Force`) |
+| `[enum]`        | Enum values from .NET or your custom ones          |
+
+---
+
+> ✅ How to Check the Type of Any Variable
+
+```powershell
+$myVar = Get-Date
+$myVar.GetType()
+```
+
+Or this for detailed properties and methods:
+
+```powershell
+$myVar | Get-Member
 ```
 
 ---
@@ -1194,7 +1296,6 @@ Would you like me to add a “⚠️ Aliases in Scripts” box in your PowerShel
 >
 > While `echo`, `ls`, and `pwd` are handy for quick typing, always use the full cmdlets (`Write-Output`, `Get-ChildItem`, `Get-Location`) in scripts to ensure clarity, portability, and maintainability.
 
-
 ---
 
 ## Extra Practical Examples
@@ -1261,5 +1362,5 @@ Remove-Item -Path "C:\Temp\MyNewFolder\MyFile_copy.txt"
 # Remove a directory (use -Recurse and -Force with caution)
 Remove-Item -Path "C:\Temp\MyNewFolder" -Recurse -Force
 ```
----
 
+---
