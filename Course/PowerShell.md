@@ -1,6 +1,7 @@
 # PowerShell and Scripting
 
 > Yahyaoui Med Aziz | 07162025.
+> IDE: vscode, PowerShell ISE
 
 <details>
   <summary>Links to resources:</summary>
@@ -13,7 +14,8 @@
     - [ScriptRunner. "PowerShell Scripting: 5 Best Practices for Clean Code.](https://www.scriptrunner.com/resources/blog/5-powershell-scripting-best-practices)
 
 - Videos:
--
+- [John Hammond - Windows PowerShell Tutorials](https://www.youtube.com/playlist?list=PL1H1sBF1VAKXqO_N3ZNP0aL15miJcUhw7)
+- 
 
 </details>
 
