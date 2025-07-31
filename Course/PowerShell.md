@@ -915,7 +915,9 @@ Set-LocalUser -Name "john" -Password (Read-Host -AsSecureString "New Password")
 Get-LocalGroupMember -Group "Administrators"
 ```
 
-## Scripting(.ps1)
+## Scripting Essentials (.ps1)
+
+### What is a script file?
 
 ---
 
@@ -986,11 +988,10 @@ Alias           echo -> Write-Output
 
 Would you like me to add a “⚠️ Aliases in Scripts” box in your PowerShell.md? Could look like this:
 
-```md
 > ⚠️ **Avoid aliases in scripts!**
 >
 > While `echo`, `ls`, and `pwd` are handy for quick typing, always use the full cmdlets (`Write-Output`, `Get-ChildItem`, `Get-Location`) in scripts to ensure clarity, portability, and maintainability.
-```
+
 
 ---
 
