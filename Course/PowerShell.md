@@ -991,3 +991,72 @@ Would you like me to add a “⚠️ Aliases in Scripts” box in your PowerShel
 >
 > While `echo`, `ls`, and `pwd` are handy for quick typing, always use the full cmdlets (`Write-Output`, `Get-ChildItem`, `Get-Location`) in scripts to ensure clarity, portability, and maintainability.
 ```
+
+---
+
+## Extra Practical Examples
+
+> Getting System Information
+
+```powershell
+# Get basic computer information
+Get-ComputerInfo
+
+# Get operating system information
+Get-CimInstance -ClassName Win32_OperatingSystem
+
+# Get network adapter information
+Get-NetAdapter
+```
+
+> Managing Processes
+
+```powershell
+# Get all running processes
+Get-Process
+
+# Get a specific process by name
+Get-Process -Name "notepad"
+
+# Stop a process (use -Force with caution)
+# Stop-Process -Name "notepad" -Force
+
+# Start a new process
+# Start-Process -FilePath "notepad.exe"
+```
+
+> Working with Files and Directories
+
+```powershell
+# List files and directories in the current location
+Get-ChildItem
+
+# Create a new directory
+New-Item -Path "C:\Temp\MyNewFolder" -ItemType Directory
+
+# Create a new file
+New-Item -Path "C:\Temp\MyNewFolder\MyFile.txt" -ItemType File
+
+# Write content to a file
+ "Hello, PowerShell!" | Out-File -FilePath "C:\Temp\MyNewFolder\MyFile.txt"
+
+# Append content to a file
+"\nThis is a new line." | Add-Content -Path "C:\Temp\MyNewFolder\MyFile.txt"
+
+# Read content from a file
+Get-Content -Path "C:\Temp\MyNewFolder\MyFile.txt"
+
+# Copy a file
+Copy-Item -Path "C:\Temp\MyNewFolder\MyFile.txt" -Destination "C:\Temp\MyNewFolder\MyFile_copy.txt"
+
+# Move a file
+Move-Item -Path "C:\Temp\MyNewFolder\MyFile.txt" -Destination "C:\Temp\MyNewFolder\MovedFile.txt"
+
+# Remove a file
+Remove-Item -Path "C:\Temp\MyNewFolder\MyFile_copy.txt"
+
+# Remove a directory (use -Recurse and -Force with caution)
+Remove-Item -Path "C:\Temp\MyNewFolder" -Recurse -Force
+```
+---
+
