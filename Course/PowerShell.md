@@ -101,7 +101,7 @@ PowerShell is an indispensable tool for IT professionals and developers alike, o
 
 PowerShell 7 is the latest cross-platform version, available for Windows, Linux, and macOS. Here’s how to install it on Windows and Linux:
 
-##### 🖥️ **Windows Installation**
+> 🖥️ **Windows Installation**
 
 1. **Using MSI Installer (Recommended):**
 
@@ -123,7 +123,7 @@ winget install --id Microsoft.Powershell --source winget
   ```
 - You should see version 7.x.x.
 
-##### 🐧 **Linux Installation**
+> 🐧 **Linux Installation**
 
 PowerShell 7 supports major Linux distributions. Here’s a quick guide for Ubuntu and CentOS:
 
@@ -157,7 +157,7 @@ PowerShell 7 supports major Linux distributions. Here’s a quick guide for Ubun
 
 ---
 
-## 🔍 Exploring Cmdlets & Command Discovery
+#### 🔍 Exploring Cmdlets & Command Discovery
 
 Whether you're coming from a Linux/Unix background or you're completely new to the command-line world, PowerShell has your back. One of its biggest strengths is how _discoverable_ everything is — you don’t need to memorize hundreds of commands like you're prepping for a hacker exam. PowerShell lets you **ask questions and learn as you go**, almost like it’s designed to teach itself.
 
@@ -170,11 +170,11 @@ In this section, we’ll dig into:
 - How to _peek inside_ objects (`Get-Member`)
 - How to _pluck out_ what you need (`Select-Object`, `.Property` access)
 
-*   **Cmdlets (Command-lets):** These are lightweight commands used in the PowerShell environment. Cmdlets follow a Verb-Noun naming convention (e.g., `Get-Command`, `Set-ExecutionPolicy`), making them easy to understand and discover.
-*   **Providers and Drives:** PowerShell providers allow access to data stores (like the file system, registry, or environment variables) as if they were file system drives. For example, the `FileSystem` provider allows navigation and manipulation of files and directories, while the `Alias` provider manages command aliases.
-*   **Pipelining:** PowerShell's most powerful feature is its ability to pipe objects from one cmdlet to another. Unlike traditional command-line interfaces that pipe text, PowerShell pipes objects, allowing for more structured and efficient data manipulation.
-*   **Variables:** Variables are used to store data in PowerShell. They are denoted by a dollar sign (`$`) followed by the variable name (e.g., `$myVariable`).
-*   **Aliases:** Aliases are alternate names for cmdlets or functions, providing shortcuts for frequently used commands (e.g., `gci` for `Get-ChildItem`).
+* **Cmdlets (Command-lets):** These are lightweight commands used in the PowerShell environment. Cmdlets follow a Verb-Noun naming convention (e.g., `Get-Command`, `Set-ExecutionPolicy`), making them easy to understand and discover.
+* **Providers and Drives:** PowerShell providers allow access to data stores (like the file system, registry, or environment variables) as if they were file system drives. For example, the `FileSystem` provider allows navigation and manipulation of files and directories, while the `Alias` provider manages command aliases.
+* **Pipelining:** PowerShell's most powerful feature is its ability to pipe objects from one cmdlet to another. Unlike traditional command-line interfaces that pipe text, PowerShell pipes objects, allowing for more structured and efficient data manipulation.
+* **Variables:** Variables are used to store data in PowerShell. They are denoted by a dollar sign (`$`) followed by the variable name (e.g., `$myVariable`).
+* **Aliases:** Aliases are alternate names for cmdlets or functions, providing shortcuts for frequently used commands (e.g., `gci` for `Get-ChildItem`).
 
 By the end of this, you'll know how to explore PowerShell the way hackers dig into filesystems — with a flashlight, not guesswork.
 
@@ -182,7 +182,7 @@ By the end of this, you'll know how to explore PowerShell the way hackers dig in
 
 ---
 
-### 📂 NAVIGATION
+#### 📂 NAVIGATION
 
 | **Linux** | **PowerShell**        | **Alias**   | Description             |
 | --------- | --------------------- | ----------- | ----------------------- |
@@ -193,7 +193,7 @@ By the end of this, you'll know how to explore PowerShell the way hackers dig in
 
 ---
 
-### 🧱 FILE & DIRECTORY MANAGEMENT
+#### 🧱 FILE & DIRECTORY MANAGEMENT
 
 | **Linux**  | **PowerShell**                           | **Alias**     | Description          |
 | ---------- | ---------------------------------------- | ------------- | -------------------- |
@@ -207,7 +207,7 @@ By the end of this, you'll know how to explore PowerShell the way hackers dig in
 
 ---
 
-### 📖 HELP & DISCOVERY
+#### 📖 HELP & DISCOVERY
 
 | **Linux** | **PowerShell**                | **Alias**     | Description                   |
 | --------- | ----------------------------- | ------------- | ----------------------------- |
@@ -251,7 +251,7 @@ $var | Get-Member -MemberType Properties
 
 ---
 
-### 👤 USER & SYSTEM
+#### 👤 USER & SYSTEM
 
 | **Linux**  | **PowerShell**                                                               | **Alias**   | Description                      |
 | ---------- | ---------------------------------------------------------------------------- | ----------- | -------------------------------- |
@@ -263,7 +263,7 @@ $var | Get-Member -MemberType Properties
 
 ---
 
-### 🌐 NETWORKING
+#### 🌐 NETWORKING
 
 | **Linux**     | **PowerShell**                     | **Alias**     | Description             |
 | ------------- | ---------------------------------- | ------------- | ----------------------- |
@@ -276,7 +276,7 @@ $var | Get-Member -MemberType Properties
 
 ---
 
-### 📦 PACKAGES & SOFTWARE MGMT
+#### 📦 PACKAGES & SOFTWARE MGMT
 
 | **Linux (APT/YUM)**    | **PowerShell**                   | **Alias** | Description                         |
 | ---------------------- | -------------------------------- | --------- | ----------------------------------- |
@@ -293,7 +293,7 @@ choco install nmap
 
 ---
 
-### 🧠 Final Thoughts
+#### 🧠 Final Thoughts
 
 - PowerShell is **friendly to Linux users** thanks to aliases and logical command mapping.
 - Learn to think in **objects**, not strings: `| Get-Member`, `Select-Object`, and `Format-*` are your friends.
@@ -310,7 +310,7 @@ choco install nmap
 
 ---
 
-### ⚙️ Profiles & Execution Policies
+#### ⚙️ Profiles & Execution Policies
 
 PowerShell allows users to customize their shell environment and control script execution through **profiles** and **execution policies**.
 
@@ -435,7 +435,7 @@ function quickIR {
 
 ---
 
-## 🧪 Aliases, Variables, Types & PSDrives
+#### 🧪 Aliases, Variables, Types & PSDrives
 
 PowerShell might look like it borrowed from Bash at first glance — especially with familiar aliases like `ls`, `cd`, and `echo`. But under the hood, it’s a **fully object-oriented scripting environment**. This section will explore:
 
@@ -740,12 +740,12 @@ PSDrives represent **data stores** you can browse and manipulate **as if they we
 
 #### 🔍 What is a PSDrive?
 
-A **PSDrive** is a *PowerShell abstraction layer* over different types of data stores:
+A **PSDrive** is a _PowerShell abstraction layer_ over different types of data stores:
 
 | Drive Name  | Description                        |
 | ----------- | ---------------------------------- |
 | `C:\`       | File system drive                  |
-| `HKLM:`     | Registry (HKEY\_LOCAL\_MACHINE)    |
+| `HKLM:`     | Registry (HKEY_LOCAL_MACHINE)      |
 | `Env:`      | Environment variables              |
 | `Alias:`    | All defined aliases                |
 | `Function:` | User-defined or built-in functions |
@@ -803,6 +803,121 @@ ls | Sort-Object Name
 
 ---
 
+### Users and file Management:
+
+Managing **permissions**, **users**, and **groups** in PowerShell on Windows works differently than in Linux. There’s **no `chmod`, `umask`, or `chown`**, for whom came from linux world, but you still have full control over **ACLs (Access Control Lists)**, **users**, and **groups** using PowerShell cmdlets. Let’s dive in:
+
+---
+
+#### 🔐 **1. File & Folder Permissions (ACLs)**
+
+In PowerShell, permissions are handled using **ACLs (Access Control Lists)** via:
+
+- `Get-Acl` – Get current permissions
+- `Set-Acl` – Apply permissions
+- `[System.Security.AccessControl.FileSystemAccessRule]` – Create custom rules
+
+---
+
+> 🔍 View Permissions
+
+```powershell
+Get-Acl "C:\Path\To\FileOrFolder"
+```
+
+> 📝 Changing Permissions:
+
+```powershell
+# Example: Grant FullControl to user 'john'
+$acl = Get-Acl "C:\Path\To\Folder"
+$rule = New-Object System.Security.AccessControl.FileSystemAccessRule("john", "FullControl", "Allow")
+$acl.AddAccessRule($rule)
+Set-Acl "C:\Path\To\Folder" $acl
+```
+
+> ✅ Add Permissions (Allow `Everyone` to read)
+
+```powershell
+$folder = "C:\TestFolder"
+$acl = Get-Acl $folder
+$rule = New-Object System.Security.AccessControl.FileSystemAccessRule("Everyone", "Read", "Allow")
+$acl.AddAccessRule($rule)
+Set-Acl $folder $acl
+```
+
+---
+
+> ❌ Remove Permissions
+
+```powershell
+$acl.RemoveAccessRule($rule)
+Set-Acl $folder $acl
+```
+
+> 🔹 `FullControl`, `Read`, `Write`, `Modify`, `ExecuteFile`, etc. are valid rights.
+
+---
+
+#### 👥 **2. Users and Groups Management**
+
+In Windows PowerShell, local user and group management can be handled with:
+
+- **`net user`** / **`net localgroup`** (legacy but works)
+- Or newer: **`New-LocalUser`**, **`Add-LocalGroupMember`** (PowerShell 5+)
+
+
+> 👤 Create a Local User
+
+```powershell
+$Password = Read-Host "Enter Password" -AsSecureString
+New-LocalUser -Name "aziz" -Password $Password -FullName "Aziz Yahyaoui" -Description "DevOps guy"
+```
+
+
+> ❌ Remove a User
+
+```powershell
+Remove-LocalUser -Name "aziz"
+```
+
+> 👪 Create a Group
+
+```powershell
+New-LocalGroup -Name "devops" -Description "DevOps team group"
+```
+
+> ➕ Add a User to a Group
+
+```powershell
+Add-LocalGroupMember -Group "devops" -Member "aziz"
+```
+
+
+> ❌ Remove a Group or Member
+
+```powershell
+Remove-LocalGroupMember -Group "devops" -Member "aziz"
+Remove-LocalGroup -Name "devops"
+```
+
+
+> 🔒 Set or Change Password
+
+- 🔁 Change a User's Password:
+
+```powershell
+Set-LocalUser -Name "john" -Password (Read-Host -AsSecureString "New Password")
+```
+
+> 🧪 Check Membership:
+
+```powershell
+Get-LocalGroupMember -Group "Administrators"
+```
+
+## Scripting(.ps1)
+
+---
 
 ## Notes:
 
