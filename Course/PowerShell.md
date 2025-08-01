@@ -1115,12 +1115,23 @@ So, in short, the `<# ... #>` header is a powerful and standard way to embed pro
 
 #### 🗣️ 2. Comments
 
-Use `#` for single-line comments to explain logic and intentions:
+> Use `#` for single-line comments to explain logic and intentions:
 
 ```powershell
 # Define source and destination paths
 $source = "C:\Projects"
 $destination = "D:\Backups"
+```
+> Use `<#  #>` for multi-line comments or to add comment-based help/documentation blocks at the top of scripts and functions.  
+
+Example:
+
+```powershell
+<#
+multiline comment
+this is a multiline comment can be used to describe the script, a function, or a block of code.
+It can also be used to provide documentation for the script.
+#>
 ```
 
 #### 📦 3. Variables and data types
