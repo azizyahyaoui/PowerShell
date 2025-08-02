@@ -1279,6 +1279,187 @@ Write-Output "Welcome, $name!"
 
 ---
 
+#### PowerShell Operators
+
+> PowerShell’s operators are **powerful and expressive**, and many of them are a hybrid between *C#/Bash* and *natural English*. Let's walk through them with simple and clear categories.
+
+
+PowerShell has several types of operators grouped as:
+
+| Category                 | Examples                                     |                     |
+| ------------------------ | -------------------------------------------- | ------------------- |
+| **Arithmetic**           | `+`, `-`, `*`, `/`, `%`                      |                     |
+| **Comparison**           | `-eq`, `-ne`, `-gt`, `-lt`, `-ge`, `-le`     |                     |
+| **Logical (Boolean)**    | `-and`, `-or`, `-not`, `!`                   |                     |
+| **Assignment**           | `=`, `+=`, `-=`, `*=`, `/=`                  |                     |
+| **Type Checking**        | `-is`, `-isnot`                              |                     |
+| **Containment (Arrays)** | `-contains`, `-notcontains`, `-in`, `-notin` |                     |
+| **Matching**             | `-like`, `-notlike`, `-match`, `-notmatch`   |                     |
+| **Range / Array Ops**    | `..`, `-join`, `-split`, `-replace`          |                     |
+| **Redirection / Pipes**  | \`                                           | `, `>`, `>>`, `2>\` |
+
+---
+
+> 🔢 1. Arithmetic Operators
+
+```powershell
+$a = 10
+$b = 3
+$a + $b   # 13
+$a - $b   # 7
+$a * $b   # 30
+$a / $b   # 3.333...
+$a % $b   # 1 (modulo)
+```
+
+---
+
+> 🔍 2. Comparison Operators
+
+| Operator | Meaning          |
+| -------- | ---------------- |
+| `-eq`    | Equals           |
+| `-ne`    | Not equals       |
+| `-gt`    | Greater than     |
+| `-lt`    | Less than        |
+| `-ge`    | Greater or equal |
+| `-le`    | Less or equal    |
+
+```powershell
+if (5 -eq 5) { "Same" }       # Same
+if (3 -lt 10) { "Smaller" }   # Smaller
+```
+
+---
+
+> ⚖️ 3. Logical Operators
+
+```powershell
+($true -and $false)     # False
+($true -or $false)      # True
+-not $true              # False
+!$false                 # True
+```
+
+---
+
+> 📥 4. Assignment Operators
+
+```powershell
+$x = 5
+$x += 3     # 8
+$x *= 2     # 16
+```
+
+---
+
+> 🧬 5. Type Operators
+
+```powershell
+$val = "hello"
+$val -is [string]         # True
+$val -isnot [int]         # True
+```
+
+---
+
+> 🔎 6. Containment (for arrays)
+
+```powershell
+$nums = 1, 2, 3, 4
+$nums -contains 3          # True
+3 -in $nums                # True
+10 -notin $nums            # True
+```
+
+---
+
+> 🔤 7. String Pattern Matching
+
+| Operator   | Example                   |
+| ---------- | ------------------------- |
+| `-like`    | Wildcard match (`*`, `?`) |
+| `-match`   | Regex match               |
+| `-replace` | Regex replace             |
+| `-split`   | Split string by delimiter |
+
+```powershell
+"Aziz Yahyaoui" -like "*yah*oui"     # True
+"aziz@example.com" -match "\w+@\w+"  # True
+"PowerShell" -replace "Shell", "Script"   # PowerScript
+```
+
+---
+
+> 🔢 8. Range and Array Operators
+
+```powershell
+1..5     # 1 2 3 4 5
+
+"aziz,yahyaoui" -split ","    # Splits into array
+"Aziz" -join "-"              # Returns: A-z-i-z
+```
+
+---
+
+> 📤 9. Output and Redirection
+
+```powershell
+Get-Process | Where-Object {$_.CPU -gt 100}
+Get-Date > output.txt           # Redirect stdout
+"Error!" 2> error.txt           # Redirect stderr
+"Append this" >> log.txt        # Append to file
+```
+
+---
+
+> 🧠 Bonus: Ternary-like Expression (PowerShell 7+)
+
+```powershell
+$age = 20
+$label = if ($age -ge 18) { "Adult" } else { "Minor" }
+```
+
+Or PowerShell 7+:
+
+```powershell
+$age = 20
+$label = $age -ge 18 ? "Adult" : "Minor"
+```
+
+---
+
+> ✅ Summary Cheat Sheet (ASCII-style)
+
+```
+[Arithmetic]
++  -  *  /  %
+
+[Comparison]
+-eq  -ne  -gt  -lt  -ge  -le
+
+[Logical]
+-and  -or  -not  !
+
+[Assignment]
+=  +=  -=  *=  /=
+
+[Type]
+-is  -isnot
+
+[Containment]
+-contains  -notcontains  -in  -notin
+
+[Matching]
+-like  -notlike
+-match  -notmatch
+-replace  -split  -join
+
+[Redirection]
+|  >  >>  2>
+```
+---
+
 #### 🔁 5. Control Flow (if, else, loops)
 
 Scripting without logic is like a game without rules — here’s how to direct flow:
