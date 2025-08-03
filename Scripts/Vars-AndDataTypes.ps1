@@ -39,6 +39,36 @@ Write-Host "Scores: $($Scores -join ', ')"
 # Objects
 Write-Host "-------------------------------- Objects: --------------------------------"
 
+# Creating a custom object using [PSCustomObject]
+$Person = [PSCustomObject]@{
+  Name     = "Aziz"
+  Age      = 27
+  IsStudent= $true
+  Height   = 1.75
+  Scores   = @(85, 90, 78)
+}
+
+Write-Host "Person Object:"
+Write-Host "Name: $($Person.Name)"
+Write-Host "Age: $($Person.Age)"
+Write-Host "Is Student: $($Person.IsStudent)"
+Write-Host "Height: $($Person.Height)"
+Write-Host "Scores: $($Person.Scores -join ', ')"
+
+# Creating an object using New-Object
+$Car = New-Object PSObject -Property @{
+  Make  = "Toyota"
+  Model = "Corolla"
+  Year  = 2022
+  Color = "White"
+}
+
+Write-Host "Car Object:"
+Write-Host "Make: $($Car.Make)"
+Write-Host "Model: $($Car.Model)"
+Write-Host "Year: $($Car.Year)"
+Write-Host "Color: $($Car.Color)"
+
 
 # Date & Time
 Write-Host "-------------------------------- Date & Time: --------------------------------"

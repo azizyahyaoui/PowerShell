@@ -14,8 +14,8 @@
     - [ScriptRunner. "PowerShell Scripting: 5 Best Practices for Clean Code.](https://www.scriptrunner.com/resources/blog/5-powershell-scripting-best-practices)
 
 - Videos:
-- [John Hammond - Windows PowerShell Tutorials](https://www.youtube.com/playlist?list=PL1H1sBF1VAKXqO_N3ZNP0aL15miJcUhw7)
--
+  - [John Hammond - Windows PowerShell Tutorials](https://www.youtube.com/playlist?list=PL1H1sBF1VAKXqO_N3ZNP0aL15miJcUhw7)
+
 
 </details>
 
@@ -1208,13 +1208,61 @@ Here’s a categorized breakdown of **commonly used data types** in PowerShell:
 
 ---
 
-> 🧪 **Object & Reflection**
+> 🧪 **Object**
 
-| Type         | Description                                           |
-| ------------ | ----------------------------------------------------- |
-| `[object]`   | The universal base type (everything inherits from it) |
-| `[psobject]` | A PowerShell-specific wrapper type used in pipelines  |
-| `[null]`     | A special non-value                                   |
+| Type         | Description                                                                                   |
+| ------------ | --------------------------------------------------------------------------------------------- |
+| `[object]`   | The universal base type in .NET and PowerShell. Every value, variable, and data structure inherits|
+
+From `[object]`. You can assign any value to an `[object]` variable, making it extremely flexible for generic programming and dynamic scenarios. Useful for storing heterogeneous collections or passing unknown types. 
+
+Example:
+
+```powershell
+$anything = 42
+$anything = "PowerShell"
+$anything = Get-Date
+# All valid, as everything is an [object]
+```
+
+You can inspect any object's type and members:
+
+```powershell
+$anything.GetType()
+$anything | Get-Member
+```
+
+> Create a custom object:
+
+---
+
+> **Reflection**
+
+| Type         | Description                                                                                                   |
+| ------------ | ------------------------------------------------------------------------------------------------------------- |
+| `[psobject]` | A PowerShell-specific wrapper type that enriches .NET objects with extra metadata, properties, and methods. Used extensively in the pipeline to provide uniform access to object members, custom properties, and extended type information. Enables advanced scripting features like note properties and dynamic member addition. |
+| `[null]`     | Represents the absence of a value. Assigning `$var = $null` clears the variable. Used for checking if an object or property is unset or missing. |
+
+Example with `[psobject]`:
+
+```powershell
+$obj = New-Object PSObject -Property @{
+  Name = "Aziz"
+  Age  = 25
+}
+$obj | Add-Member -NotePropertyName "Country" -NotePropertyValue "Tunisia"
+$obj | Format-List *
+```
+
+Checking for `[null]`:
+
+```powershell
+if ($obj -eq $null) {
+  Write-Output "Object is null (no value assigned)"
+}
+```
+
+---
 
 ---
 
@@ -1498,6 +1546,217 @@ while ($count -lt 3) {
     $count++
 }
 ```
+
+---
+
+### Object data type in detail
+
+
+#### 🧩 What is an Object in PowerShell?
+
+In PowerShell, an **object** is a structured piece of data that contains:
+
+* **Properties** (like variables inside the object)
+* **Methods** (like actions it can perform)
+
+When you run something like:
+
+```powershell
+Get-Process
+```
+
+You're not getting "text output" — you're getting a **collection of objects** of type `[System.Diagnostics.Process]`. That’s why you can do:
+
+```powershell
+(Get-Process)[0].Name
+(Get-Process)[0].StartTime
+```
+
+You're accessing **real object members**, not parsing strings.
+
+---
+
+#### ✅ Why Use Custom Objects?
+
+Custom objects are perfect when:
+
+* Returning **structured data** from scripts
+* Building **reports or logs**
+* Returning multiple values from a function
+* Interacting with pipelines (`Export-Csv`, `ConvertTo-Json`, etc.)
+
+---
+
+> 🛠️ Ways to Create Custom Objects
+
+- 🔹 1. `[pscustomobject]` (Recommended Way)
+
+```powershell
+$person = [pscustomobject]@{
+    Name = "Aziz"
+    Age = 27
+    IsStudent = $true
+}
+```
+
+✅ Super clean. Can be piped to `Export-Csv`, `ConvertTo-Json`, etc.
+
+```powershell
+$person.Name       # "Aziz"
+$person.Age        # 27
+$person | Get-Member  # Shows properties and types
+```
+
+---
+
+- 🔸 2. `New-Object` with `Add-Member` (Legacy Style)
+
+```powershell
+$server = New-Object PSObject
+$server | Add-Member -MemberType NoteProperty -Name "Hostname" -Value "srv01"
+$server | Add-Member -MemberType NoteProperty -Name "IP" -Value "192.168.1.10"
+$server
+```
+
+🔴 More verbose — but sometimes used in older scripts or for dynamic objects.
+
+---
+
+- 🔸 3. Casting a `Hashtable` to `[pscustomobject]`
+
+```powershell
+$info = @{
+    CPU = "Intel"
+    RAM = "16GB"
+    OS  = "Windows 11"
+}
+
+$sysInfo = [pscustomobject]$info
+```
+
+This is functionally the same as the clean method above — just allows flexibility.
+
+---
+
+#### 🧪 Example: Report Generator
+
+```powershell
+$users = @()
+
+foreach ($name in "Aziz", "Bilel", "Chiheb") {
+    $user = [pscustomobject]@{
+        Username = $name
+        ID       = [guid]::NewGuid()
+        Date     = Get-Date
+    }
+    $users += $user
+}
+
+$users | Format-Table
+```
+
+You’ll get a beautiful table of structured objects with usernames and timestamps.
+
+---
+
+#### 🔄 Convert Objects To...
+
+| Format | Cmdlet                          |
+| ------ | ------------------------------- |
+| CSV    | `Export-Csv` / `ConvertTo-Csv`  |
+| JSON   | `ConvertTo-Json`                |
+| HTML   | `ConvertTo-Html`                |
+| XML    | `ConvertTo-Xml` (PowerShell 7+) |
+
+```powershell
+$person | ConvertTo-Json
+$users  | Export-Csv -Path users.csv -NoTypeInformation
+```
+
+---
+
+#### 🚧 Avoid This: String-Building Objects
+
+Don’t do this:
+
+```powershell
+"$name,$age,$email" >> report.csv
+```
+
+Do this instead:
+
+```powershell
+[pscustomobject]@{ Name=$name; Age=$age; Email=$email } | Export-Csv ...
+```
+
+---
+
+#### Summary Cheat Code 🧠
+
+```powershell
+$custom = [pscustomobject]@{
+    Prop1 = "Value1"
+    Prop2 = 123
+    Prop3 = $true
+}
+```
+---
+
+### Enum
+
+An **enum** (enumeration) in PowerShell is a distinct type that consists of a set of named constants called the enumerator list. Enums are useful for representing a fixed set of related values, such as days of the week, status codes, or options.
+
+#### 🔹 Defining an Enum
+
+You can define a custom enum using the `enum` keyword:
+
+```powershell
+enum Status {
+  Pending
+  Running
+  Completed
+  Failed
+}
+```
+
+#### 🔸 Using Enums
+
+Assign an enum value to a variable:
+
+```powershell
+$status = [Status]::Running
+Write-Output $status         # Output: Running
+```
+
+Compare enum values:
+
+```powershell
+if ($status -eq [Status]::Completed) {
+  Write-Output "Task finished!"
+}
+```
+
+#### 🔍 Listing Enum Values
+
+To list all possible values of an enum:
+
+```powershell
+[Enum]::GetValues([Status])
+```
+
+#### 🧠 Built-in .NET Enums
+
+PowerShell can use any .NET enum. For example, file attributes:
+
+```powershell
+[System.IO.FileAttributes]::ReadOnly
+```
+
+#### ✅ Why Use Enums?
+
+- Improves code readability and intent
+- Prevents invalid values
+- Useful for parameters, switches, and state tracking
 
 ---
 
